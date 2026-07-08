@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Set Up Studio Account — JK Photography{% endblock %}
+{% block content %}
+
+<section class="section" style="padding-top: 160px;">
+  <div class="container">
+    <div class="form-shell narrow">
+      <div class="eyebrow">Studio Setup</div>
+      <h2 class="form-title" style="margin-top: 16px;">Create your studio account</h2>
+      <p class="form-sub">This is a one-time setup for JK to manage bookings and the gallery. Only one studio account is needed.</p>
+
+      <form method="POST" action="{{ url_for('register') }}">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" placeholder="jk" required>
+        </div>
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" placeholder="At least 6 characters" required>
+        </div>
+        <div class="field">
+          <label for="confirm_password">Confirm password</label>
+          <input type="password" id="confirm_password" name="confirm_password" required>
+        </div>
+        <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center; padding: 15px;">Create Account</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

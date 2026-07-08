@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Studio Login — JK Photography{% endblock %}
+{% block content %}
+
+<section class="section" style="padding-top: 160px;">
+  <div class="container">
+    <div class="form-shell narrow">
+      <div class="eyebrow">Studio Login</div>
+      <h2 class="form-title" style="margin-top: 16px;">Welcome back, JK.</h2>
+      <p class="form-sub">Log in to view enquiries and manage the gallery.</p>
+
+      <form method="POST" action="{{ url_for('login') }}">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autofocus>
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center; padding: 15px;">Log In</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

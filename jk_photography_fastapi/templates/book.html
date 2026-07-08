@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% block title %}Book a Shoot — JK Photography{% endblock %}
+{% block content %}
+
+<section class="section" style="padding-top: 160px;">
+  <div class="container">
+    <div class="form-shell">
+      <div class="eyebrow">Enquiry</div>
+      <h2 class="form-title" style="margin-top: 16px;">Tell us about your shoot</h2>
+      <p class="form-sub">Share a few details and JK will get back to you to lock the date and plan the day.</p>
+
+      <form method="POST" action="{{ url_for('book') }}">
+        <div class="field-row">
+          <div class="field">
+            <label for="name">Full name</label>
+            <input type="text" id="name" name="name" value="{{ form.name or '' }}" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="phone">Phone number</label>
+            <input type="tel" id="phone" name="phone" value="{{ form.phone or '' }}" placeholder="+91 9xxxxxxxxx" required>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" value="{{ form.email or '' }}" placeholder="you@example.com" required>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="shoot_type">Type of shoot</label>
+            <select id="shoot_type" name="shoot_type" required>
+              <option value="" disabled {{ 'selected' if not form.shoot_type else '' }}>Choose one</option>
+              {% for t in shoot_types %}
+                <option value="{{ t }}" {{ 'selected' if form.shoot_type == t else '' }}>{{ t }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="field">
+            <label for="event_date">Preferred date</label>
+            <input type="date" id="event_date" name="event_date" value="{{ form.event_date or '' }}">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="location">Shoot location</label>
+          <input type="text" id="location" name="location" value="{{ form.location or '' }}" placeholder="City / venue" required>
+        </div>
+
+        <div class="field">
+          <label for="message">Anything else JK should know</label>
+          <textarea id="message" name="message" rows="4" placeholder="Theme, number of guests, timings, special requests...">{{ form.message or '' }}</textarea>
+        </div>
+
+        <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center; padding: 15px;">Send Enquiry</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Pre-select shoot type if passed via ?type= in URL (from service cards)
+  const params = new URLSearchParams(window.location.search);
+  const t = params.get("type");
+  if (t) {
+    const select = document.getElementById("shoot_type");
+    for (const opt of select.options) {
+      if (opt.value === t) opt.selected = true;
+    }
+  }
+</script>
+
+{% endblock %}

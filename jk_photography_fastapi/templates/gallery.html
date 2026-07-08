@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Gallery — JK Photography{% endblock %}
+{% block content %}
+
+<section class="section" style="padding-top: 160px;">
+  <div class="container">
+    <div class="section-head">
+      <div class="eyebrow">Portfolio</div>
+      <h2 class="section-title">The gallery</h2>
+      <p class="section-desc">A running record of weddings, baby shoots, and films — updated as each story wraps.</p>
+    </div>
+
+    {% if locked %}
+      <div class="lock-screen">
+        <div class="lock-card">
+          <div class="lock-icon">
+            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="10" width="16" height="10" rx="1.5" stroke="currentColor" stroke-width="1.6"/>
+              <path d="M7 10V7a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="1.6"/>
+              <circle cx="12" cy="15" r="1.6" fill="currentColor"/>
+            </svg>
+          </div>
+          <h3 class="lock-title">This gallery is private</h3>
+          <p class="lock-desc">The full portfolio is reserved for JK. Enter the studio password to view it.</p>
+          <form method="POST" action="{{ url_for('unlock') }}" class="lock-form">
+            <input type="hidden" name="next" value="{{ url_for('gallery', category=active_category) }}">
+            <input type="password" name="password" placeholder="Studio password" required autofocus>
+            <button type="submit" class="btn btn-solid" style="width: 100%; justify-content: center; padding: 13px;">Unlock Gallery</button>
+          </form>
+          <a href="{{ url_for('book') }}" class="lock-alt-link">Prefer to just enquire about a shoot? Book here &rarr;</a>
+        </div>
+      </div>
+    {% else %}
+      <div class="gallery-filters">
+        {% for c in categories %}
+          <a href="{{ url_for('gallery', category=c) }}" class="filter-pill {{ 'active' if c == active_category else '' }}">{{ c }}</a>
+        {% endfor %}
+      </div>
+
+      {% if items %}
+        <div class="masonry">
+          {% for item in items %}
+            <div class="masonry-item">
+              <span class="tag">{{ item.category }}</span>
+              {% if item.media_type == 'image' %}
+                <img src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" alt="{{ item.title }}" loading="lazy">
+              {% else %}
+                <video src="{{ url_for('static', filename='uploads/' ~ item.filename) }}" controls></video>
+              {% endif %}
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-state">
+          Nothing here yet in this category. Check back soon, or upload from the dashboard.
+        </div>
+      {% endif %}
+    {% endif %}
+  </div>
+</section>
+
+{% endblock %}
